@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SGQ RNC - Gestão de Não Conformidades</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Gestão de RNCs</h1>
+    <p>Controle de rastreabilidade, 8D, alertas e ações corretivas.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Nova RNC</h2>
+      <form id="rnc-form">
+        <div class="grid">
+          <label>Rastreabilidade<input required name="rastreabilidade" /></label>
+          <label>Código Agro<input required name="codigoAgro" /></label>
+          <label>Código Terceiro<input name="codigoTerceiro" /></label>
+          <label>Quantidade<input required type="number" min="1" name="quantidade" /></label>
+          <label>Cliente<input required name="cliente" /></label>
+          <label>Planta<input required name="planta" /></label>
+          <label>Ação de contenção<textarea required name="contencao"></textarea></label>
+          <label>Prazo de resposta<input required type="date" name="prazoResposta" /></label>
+          <label>Procedente?
+            <select required name="procedente">
+              <option value="">Selecione</option>
+              <option>Sim</option>
+              <option>Não</option>
+            </select>
+          </label>
+          <label>Formar?
+            <select required name="formar">
+              <option value="">Selecione</option>
+              <option>Sim</option>
+              <option>Não</option>
+            </select>
+          </label>
+          <label>Observações<textarea name="observacoes"></textarea></label>
+          <label>Anexos (PDF, JPEG, DOCX, XLSX)
+            <input id="anexos" type="file" multiple accept=".pdf,.jpeg,.jpg,.docx,.xlsx" />
+          </label>
+        </div>
+
+        <details>
+          <summary>8D (opcional)</summary>
+          <div class="grid">
+            <label>D1 - Equipe<textarea name="d1"></textarea></label>
+            <label>D2 - Descrição do problema<textarea name="d2"></textarea></label>
+            <label>D3 - Ação de contenção<textarea name="d3"></textarea></label>
+            <label>D4 - Causa raiz<textarea name="d4"></textarea></label>
+            <label>D5 - Ação corretiva<textarea name="d5"></textarea></label>
+            <label>D6 - Validação<textarea name="d6"></textarea></label>
+            <label>D7 - Prevenção<textarea name="d7"></textarea></label>
+            <label>D8 - Reconhecimento<textarea name="d8"></textarea></label>
+          </div>
+        </details>
+
+        <button type="submit">Cadastrar RNC</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Ações corretivas</h2>
+      <form id="acao-form" class="inline-form">
+        <select id="acao-rnc" required></select>
+        <input id="acao-desc" required placeholder="Ação corretiva" />
+        <input id="acao-resp" required placeholder="Responsável" />
+        <input id="acao-prazo" type="date" required />
+        <button type="submit">Adicionar ação</button>
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>RNC</th><th>Ação</th><th>Responsável</th><th>Prazo</th><th>Status</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="acoes-body"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Alertas de qualidade</h2>
+      <ul id="alertas"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Dashboard</h2>
+      <div class="dashboard-grid">
+        <div class="kpi"><span id="kpi-total">0</span><small>RNCs</small></div>
+        <div class="kpi"><span id="kpi-procedentes">0</span><small>Procedentes</small></div>
+        <div class="kpi"><span id="kpi-prazo">0</span><small>RNCs vencidas</small></div>
+        <div class="kpi"><span id="kpi-acoes">0</span><small>Ações em aberto</small></div>
+      </div>
+      <canvas id="cliente-chart" width="640" height="280"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>RNCs cadastradas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Rastreabilidade</th><th>Cliente</th><th>Prazo</th><th>Procedente</th><th>Anexos</th><th>8D</th>
+          </tr>
+        </thead>
+        <tbody id="rnc-body"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <template id="anexo-template">
+    <li></li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
